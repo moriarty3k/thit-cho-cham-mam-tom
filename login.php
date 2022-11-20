@@ -36,7 +36,7 @@ if (isset($_POST['login_user'])) {
 			array_push($errors, "Wrong username/email");
 		}
 	}
-	//cookie
+	//cookie 
 	if(!empty($_POST["remember"])) {
 		setcookie ("username",$_SESSION["username"],time()+ 3600);
 		setcookie ("password",$_SESSION["password"],time()+ 3600);
