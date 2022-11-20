@@ -44,7 +44,7 @@ if (isset($_GET['logout'])) {
     <?php  if (isset($_SESSION['username'])) : ?>
     	<p><strong>Welcome </strong><?php echo $_SESSION['username']; print'. You are: ';echo $_SESSION['role']?></p>
     	<p> <a href="index.php?logout='1'" style="color: red;">logout</a> </p>
-			<!--cookie check -->
+			<!--cookie check, will delete!! -->
 			<?php if (isset($_COOKIE['username']) && $_COOKIE['username']==$_SESSION['username']) { 
 						echo  'hello again!';
 							} else {

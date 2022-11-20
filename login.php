@@ -1,19 +1,25 @@
 <?php 
 include('server.php');
-//include('remember.php');
-//include('access.php');
-
-
+$captcha = '';
+$random = rand(1000,9999);
+$_SESSION['captcha'] = $random;
 
 if (isset($_POST['login_user'])) {
 	$username = mysqli_real_escape_string($db, $_POST['username']);
 	$password = mysqli_real_escape_string($db, $_POST['password']);
-  
+	$captcha = $_REQUEST['captcha'];
+	$captcharandom = $_REQUEST['captcha-random'];
+	
+
 	if (empty($username)) {
 		array_push($errors, "Username is required");
 	}
 	if (empty($password)) {
 		array_push($errors, "Password is required");
+	}
+
+	if (empty($captcha) || $captcha != $captcharandom ) {
+		array_push($errors, "Wrong Captcha");
 	}
   
 	if (count($errors) == 0) {
@@ -27,6 +33,7 @@ if (isset($_POST['login_user'])) {
 					$_SESSION['password'] = $password;
 					$_SESSION['success'] = "You are now logged in";
 					$_SESSION['role'] = $check['role'];
+					
 					header('location: index.php');
 						
 				}else {
@@ -36,14 +43,12 @@ if (isset($_POST['login_user'])) {
 			array_push($errors, "Wrong username/email");
 		}
 	}
-	//cookie 
-	if(!empty($_POST["remember"])) {
-		setcookie ("username",$_SESSION["username"],time()+ 3600);
-		setcookie ("password",$_SESSION["password"],time()+ 3600);
-	} 
-
 }
-
+//cookie set
+if(!empty($_POST["remember"])) {
+	setcookie ("username",$_SESSION["username"],time()+ 3600); //expire time = 1h
+	setcookie ("password",$_SESSION["password"],time()+ 3600);
+} 
 
   
 ?>
@@ -69,13 +74,22 @@ if (isset($_POST['login_user'])) {
   		<label>Password</label>
   		<input type="password" name="password" value="<?php if(isset($_COOKIE["password"])) { echo $_COOKIE["password"]; } ?>">
   	</div>
+	<div class="input-group captcha-code">
+		<label>Enter Captcha</label>
+		<input type='text' name="captcha"> 
+	</div>
+	<div class="input-group captcha-code">
+		<label>Captcha code:</label>
+		<input type="hidden" name="captcha-random" value="<?php echo $random;//lưu random vào $_session?>"> 
+		<div class="captcha-ran" ><?php echo $random;?></div>  
+	</div>
   	<div class="input-group">
   		<button type="submit" class="btn" name="login_user">Login</button>
   	</div>
-	<div class="checkbox">
-		<input type='checkbox' name='remember'>
-		<label>Remember me</label>	
+	<div class="check">
+		<input type='checkbox' name='remember'> Remember me
 	</div>
+	
   	<p>
   		Not yet a member? <a href="register.php">Sign up</a>
   	</p>
