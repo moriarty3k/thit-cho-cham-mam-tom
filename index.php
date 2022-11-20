@@ -38,7 +38,7 @@ if (isset($_GET['logout'])) {
           ?>
       	</h3>
       </div>
-  	<?php endif ?>
+  	<?php endif ?> 
 
     <!-- logged in user information -->
     <?php  if (isset($_SESSION['username'])) : ?>
