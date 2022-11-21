@@ -8,7 +8,7 @@ session_start();
 $username = "";
 $email    = "";
 $errors = array(); 
-$role = "";
+
 
 // connect to the database
 $db = mysqli_connect('localhost', 'root', '', 'wokwokwokwok');

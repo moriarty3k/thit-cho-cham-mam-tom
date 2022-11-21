@@ -1,8 +1,8 @@
 <?php 
 include('server.php');
-$captcha = '';
+
 $random = rand(1000,9999);
-$_SESSION['captcha'] = $random;
+
 
 if (isset($_POST['login_user'])) {
 	$username = mysqli_real_escape_string($db, $_POST['username']);
@@ -18,13 +18,13 @@ if (isset($_POST['login_user'])) {
 		array_push($errors, "Password is required");
 	}
 
-	if (empty($captcha) || $captcha != $captcharandom ) {
+	if (empty($captcha) || $captcha != $captcharandom ) { //captcha check
 		array_push($errors, "Wrong Captcha");
 	}
   
 	if (count($errors) == 0) {
 		$query = "SELECT * FROM users WHERE username='$username'";
-		$results = mysqli_query($db, $query);
+		$results = mysqli_query($db, $query); //thực hiện truy vấn db
 
 		if (mysqli_num_rows($results) == 1) {
 			$check = mysqli_fetch_assoc($results); //mysqli_fetch_assoc: trả về kết quả của 1 truy vấn sql
@@ -33,6 +33,7 @@ if (isset($_POST['login_user'])) {
 					$_SESSION['password'] = $password;
 					$_SESSION['success'] = "You are now logged in";
 					$_SESSION['role'] = $check['role'];
+					$_SESSION['balance'] = $check['balance'];
 					
 					header('location: index.php');
 						

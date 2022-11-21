@@ -11,7 +11,7 @@ $email    = "";
 $errors = array(); 
 
 // connect to the database
-$db = mysqli_connect('localhost', 'root', '', 'project');
+$db = mysqli_connect('localhost', 'root', '', 'wokwokwokwok');
 
 if ($db->connect_error) {
     die("Connection failed: " . $db->connect_error);
