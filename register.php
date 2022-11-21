@@ -8,6 +8,7 @@ if (isset($_POST['reg_user'])) {
 	$password_1 = mysqli_real_escape_string($db, $_POST['password_1']);
 	$password_2 = mysqli_real_escape_string($db, $_POST['password_2']);
 	$role = 'samuel';
+	$balance = 0;
   
   
 	// form validation: ensure that the form is correctly filled ...
@@ -39,13 +40,14 @@ if (isset($_POST['reg_user'])) {
 	if (count($errors) == 0) {
 		$password = password_hash($password_1, PASSWORD_DEFAULT);//crypt_blowfish $2y$
    
-		$query = "INSERT INTO users (username, email, password, role) 
-	   			  VALUES('$username', '$email', '$password', '$role')";
+		$query = "INSERT INTO users (username, email, password, role, balance) 
+	   			  VALUES('$username', '$email', '$password', '$role', $balance)";
  	  	mysqli_query($db, $query);
  
 		$_SESSION['username'] = $username;
 		$_SESSION['role'] = $role;
 		$_SESSION['success'] = "You are now logged in";
+		$_SESSION['balance'] = $balance;
 		
 	  
 		header('location: index.php');
