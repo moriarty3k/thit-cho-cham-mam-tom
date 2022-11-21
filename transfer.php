@@ -6,9 +6,9 @@ $user_balance = $_SESSION['balance'];
 if (!isset($_SESSION['username'])) {
   	$_SESSION['msg'] = "You must log in first";
   	header('location: login.php');
-} else {
-    
-    $receiver = mysqli_real_escape_string($db, $_POST['user']);
+} 
+if (isset($_POST['money_trans'])) {
+    $receiver = mysqli_real_escape_string($db, $_POST['receiver']);
     $amount = mysqli_real_escape_string($db, $_POST['amount']);
     $username = $_SESSION['username'];
 
@@ -24,26 +24,28 @@ if (!isset($_SESSION['username'])) {
 	}
     if ($amount > $_SESSION['balance'] || $_SESSION['balance'] == 0){
         array_push($errors, "Not enough banana");
-    }
-    if (!$user || $user['username'] == $username) {
-        array_push($errors, "Wrong user!!");
-    }
+  }
+    if ($username == $user['username']) {
+        array_push($errors, "User Error!!");
+  }
 
     if (count($errors) == 0) {
         $receiver_balance = $user['balance'] + $amount;
         $user_balance = $_SESSION['balance'] - $amount;
-		$query1 = "UPDATE users SET balance='$receiver_balance' WHERE username='$receiver'";
+		    
+        $query1 = "UPDATE users SET balance='$receiver_balance' WHERE username='$receiver'";
  	  	    mysqli_query($db, $query1);
         $query2 = "UPDATE users SET balance='$user_balance' WHERE username='$username'";
  	  	    mysqli_query($db, $query2);
-
-    }
+    
+        $_SESSION['success'] = "Transfer Successfully";
+  	    header('location: index.php');
+        unset($_SESSION['balance']);
+        $_SESSION['balance'] = $user_balance;      
+  }
+    
+    
 }
-
-
-
-
-
 
 ?>
 
@@ -62,7 +64,7 @@ if (!isset($_SESSION['username'])) {
     <p> Your balance is: <b><?php echo $user_balance; ?></b> banana </p>
   	<div class="input-group">
   		<label>Receiver</label>
-  		<input type="text" name="user">
+  		<input type="text" name="receiver">
   	</div>
   	<div class="input-group">
   		<label>Amount</label>
