@@ -26,6 +26,9 @@ form, .content {
   background: white;
   border-radius: 0px 0px 10px 10px;
 }
+
+
+
 .input-group {
   margin: 10px 0px 10px 0px;
 }
@@ -58,7 +61,7 @@ form, .content {
 }
 
 .captcha-ran {
-  width: 40%%;
+  width: 40%;
   height: 30px;
   padding: 5px 10px;
   background: red;

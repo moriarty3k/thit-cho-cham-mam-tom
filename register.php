@@ -26,6 +26,8 @@ if (isset($_POST['reg_user'])) {
 	$result = mysqli_query($db, $user_check_query); //thực hiện truy vấn từ database
 	$user = mysqli_fetch_assoc($result);  //mysqli_fetch_assoc: trả về kết quả của 1 truy vấn sql
 	
+
+
 	if ($user) { // if user exists
 	  if ($user['username'] === $username) {
 		array_push($errors, "Username already exists");
@@ -46,11 +48,11 @@ if (isset($_POST['reg_user'])) {
  
 		$_SESSION['username'] = $username;
 		$_SESSION['role'] = $role;
-		$_SESSION['success'] = "You are now logged in";
+		$_SESSION['success'] = "successful registration";
 		$_SESSION['balance'] = $balance;
 		
 	  
-		header('location: index.php');
+		header('location: login.php');
 	}
   }
   

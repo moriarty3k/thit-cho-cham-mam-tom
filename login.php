@@ -64,7 +64,20 @@ if(!empty($_POST["remember"])) {
   <div class="header">
   	<h2>Login</h2>
   </div>
-	 
+ 	<!-- notification message -->
+  <!-- <div class='special'>
+	<?php if (isset($_SESSION['success'])) : ?>
+      <div class="error success" >
+      	<h3>
+          <?php 
+          	echo $_SESSION['success']; 
+          	unset($_SESSION['success'	]);
+          ?>
+      	</h3>
+      </div>
+	<?php endif ?> 
+  </div> -->
+
   <form method="post" action="login.php">
   	<?php include('errors.php'); ?>
   	<div class="input-group">
