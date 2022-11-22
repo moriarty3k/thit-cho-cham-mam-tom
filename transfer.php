@@ -60,7 +60,7 @@ if (isset($_POST['money_trans'])) {
   	<h2>Money Transfer</h2>
   </div>
   <form method="post" action="transfer.php">
-  	<?php include('errors.php'); ?>
+  	<?php include('noti.php'); ?>
     <p> Your balance is: <b><?php echo $user_balance; ?></b> banana </p>
   	<div class="input-group">
   		<label>Receiver</label>

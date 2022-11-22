@@ -79,7 +79,7 @@ if(!empty($_POST["remember"])) {
   </div> -->
 
   <form method="post" action="login.php">
-  	<?php include('errors.php'); ?>
+  	<?php include('noti.php'); ?>
   	<div class="input-group">
   		<label>Username</label>
   		<input type="text" name="username" value="<?php if(isset($_COOKIE["username"])) { echo $_COOKIE["username"]; } ?>">

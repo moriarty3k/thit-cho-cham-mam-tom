@@ -48,11 +48,11 @@ if (isset($_POST['reg_user'])) {
  
 		$_SESSION['username'] = $username;
 		$_SESSION['role'] = $role;
-		$_SESSION['success'] = "successful registration";
+		$_SESSION['success'] = "Successful Registration";
 		$_SESSION['balance'] = $balance;
+
+		header('location: index.php');
 		
-	  
-		header('location: login.php');
 	}
   }
   
@@ -69,7 +69,7 @@ if (isset($_POST['reg_user'])) {
   </div>
 	
   <form method="post" action="register.php">
-  	<?php include('errors.php'); ?>
+  	<?php include('noti.php'); ?>
   	<div class="input-group">
   	  <label>Username</label>
   	  <input type="text" name="username" value="<?php echo $username; ?>">
