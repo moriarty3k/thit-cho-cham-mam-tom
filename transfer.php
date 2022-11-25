@@ -2,12 +2,18 @@
 include('server.php');
 //session_start();	
 $user_balance = $_SESSION['balance'];
+$random = rand(1000,9999);
+
 
 if (!isset($_SESSION['username'])) {
   	$_SESSION['msg'] = "You must log in first";
   	header('location: login.php');
 } 
 if (isset($_POST['money_trans'])) {
+  
+  $captcha = $_REQUEST['captcha'];
+  $captchacheck = $_REQUEST['captcha-check'];
+
     $receiver = mysqli_real_escape_string($db, $_POST['receiver']);
     $amount = mysqli_real_escape_string($db, $_POST['amount']);
     $username = $_SESSION['username'];
@@ -28,7 +34,9 @@ if (isset($_POST['money_trans'])) {
     if ($username == $user['username']) {
         array_push($errors, "User Error!!");
   }
-
+  if (empty($captcha) || $captcha != $captchacheck ) { //captcha check
+		array_push($errors, "Wrong Captcha");
+	}
     if (count($errors) == 0) {
         $receiver_balance = $user['balance'] + $amount;
         $user_balance = $_SESSION['balance'] - $amount;
@@ -53,7 +61,7 @@ if (isset($_POST['money_trans'])) {
 <html>
 <head>
   <title>Money Transfer</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
   <div class="header">
@@ -61,6 +69,7 @@ if (isset($_POST['money_trans'])) {
   </div>
   <form method="post" action="transfer.php">
   	<?php include('noti.php'); ?>
+    <p> Hello: <b><?php echo $_SESSION['username']; ?></b> </p>
     <p> Your balance is: <b><?php echo $user_balance; ?></b> banana </p>
   	<div class="input-group">
   		<label>Receiver</label>
@@ -68,12 +77,24 @@ if (isset($_POST['money_trans'])) {
   	</div>
   	<div class="input-group">
   		<label>Amount</label>
-  		<input type="text" name="amount">
+  		<input type="text" name="amount" onkeypress="return /[0-9]/i.test(event.key)">
   	</div>
+    <!-- captcha -->
+    <div class="input-group captcha-code">
+		<label>Enter Captcha</label>
+		<input type='text' name="captcha"> 
+	</div>
+	<div class="input-group captcha-code">
+		<label>Captcha code:</label>
+		<input type="hidden" name="captcha-check" value="<?php echo $random;//lưu random vào $_session?>"> 
+		<div class="captcha-ran" ><?php echo $random;?></div>  
+	</div>
+    <!-- captcha -->
   	<div class="input-group">
   		<button type="submit" class="btn" name="money_trans">Send</button>
   	</div>
     <p> <a href="index.php" style="color: blue;">home page</a> </p>
+    <p> <a href="recharge.php" style="color: green;">money recharge</a> </p>
 
   </form>
 </body>

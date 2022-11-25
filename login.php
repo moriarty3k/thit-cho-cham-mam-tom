@@ -3,12 +3,15 @@ include('server.php');
 
 $random = rand(1000,9999);
 
-
+if (isset($_SESSION['username'])) {
+	header('location: index.php');
+}
 if (isset($_POST['login_user'])) {
 	$username = mysqli_real_escape_string($db, $_POST['username']);
 	$password = mysqli_real_escape_string($db, $_POST['password']);
+	
 	$captcha = $_REQUEST['captcha'];
-	$captcharandom = $_REQUEST['captcha-random'];
+	$captchacheck = $_REQUEST['captcha-check'];
 	
 
 	if (empty($username)) {
@@ -18,7 +21,7 @@ if (isset($_POST['login_user'])) {
 		array_push($errors, "Password is required");
 	}
 
-	if (empty($captcha) || $captcha != $captcharandom ) { //captcha check
+	if (empty($captcha) || $captcha != $captchacheck ) { //captcha check
 		array_push($errors, "Wrong Captcha");
 	}
   
@@ -34,7 +37,6 @@ if (isset($_POST['login_user'])) {
 					$_SESSION['success'] = "You are now logged in";
 					$_SESSION['role'] = $check['role'];
 					$_SESSION['balance'] = $check['balance'];
-					
 					header('location: index.php');
 						
 				}else {
@@ -58,7 +60,7 @@ if(!empty($_POST["remember"])) {
 <html>
 <head>
   <title>Login</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
   <div class="header">
@@ -88,16 +90,18 @@ if(!empty($_POST["remember"])) {
   		<label>Password</label>
   		<input type="password" name="password" value="<?php if(isset($_COOKIE["password"])) { echo $_COOKIE["password"]; } ?>">
   	</div>
+	<!-- captcha -->
 	<div class="input-group captcha-code">
 		<label>Enter Captcha</label>
 		<input type='text' name="captcha"> 
 	</div>
 	<div class="input-group captcha-code">
 		<label>Captcha code:</label>
-		<input type="hidden" name="captcha-random" value="<?php echo $random;//lưu random vào $_session?>"> 
+		<input type="hidden" name="captcha-check" value="<?php echo $random;//lưu random vào $_session?>"> 
 		<div class="captcha-ran" ><?php echo $random;?></div>  
 	</div>
   	<div class="input-group">
+	<!-- captcha -->
   		<button type="submit" class="btn" name="login_user">Login</button>
   	</div>
 	<div class="check">

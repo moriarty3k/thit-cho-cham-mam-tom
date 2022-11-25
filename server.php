@@ -12,7 +12,7 @@ $success = array();
 
 
 // connect to the database
-$db = mysqli_connect('localhost', 'root', '', 'wokwokwokwok');
+$db = mysqli_connect('localhost', 'root', '', 'wokwokwokwok'); 
 
 // REGISTER USER
 // if (isset($_POST['reg_user'])) {
