@@ -57,6 +57,7 @@ if (isset($_GET['logout'])) {
     	<p> <a href="index.php?logout='1'" style="color: red;">logout</a> </p>
 		<p> <a href="transfer.php" style="color: blue;">money transfer</a> </p>
 		<p> <a href="recharge.php" style="color: green;">money recharge</a> </p>
+		<p> <a href="product.php" style="color: salmon;">shopping</a> </p>
 			<!--cookie check, will delete!! -->
 			
 			
