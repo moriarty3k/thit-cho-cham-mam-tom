@@ -7,46 +7,50 @@ $result = mysqli_query($db,$query);
 
 
 if (isset($_POST["add"])) {
-    array_push($sucess, "ok");
-//     if(isset($_SESSION["shopping_cart"])) {  
-//         $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");  
-//         if(!in_array($_GET["id"], $item_array_id)) {  
-//               $count = count($_SESSION["shopping_cart"]);  
-//               $item_array = array(  
-//                    'item_id'               =>     $_GET["id"],  
-//                    'item_name'               =>     $_POST["hidden_name"],  
-//                    'item_price'          =>     $_POST["hidden_price"],  
-//                    'item_quantity'          =>     $_POST["quantity"]  
-//               );  
-//               $_SESSION["shopping_cart"][$count] = $item_array;  
-//         } else {  
-//               echo '<script>alert("Item Already Added")</script>';  
-//               echo '<script>window.location="product.php"</script>';  
-//         }  
-//     } else {  
-//         $item_array = array(  
-//               'item_id'               =>     $_GET["id"],  
-//               'item_name'               =>     $_POST["hidden_name"],  
-//               'item_price'          =>     $_POST["hidden_price"],  
-//               'item_quantity'          =>     $_POST["quantity"]  
-//          );  
-//          $_SESSION["shopping_cart"][0] = $item_array;  
-//     }  
-// }  
-// if(isset($_GET["action"]))  
-// {  
-//     if($_GET["action"] == "delete")  
-//     {  
-//          foreach($_SESSION["shopping_cart"] as $keys => $values)  
-//          {  
-//               if($values["item_id"] == $_GET["id"])  
-//               {  
-//                    unset($_SESSION["shopping_cart"][$keys]);  
-//                    echo '<script>alert("Item Removed")</script>';  
-//                    echo '<script>window.location="product.php"</script>';  
-//               }  
-//          }  
-//     }
+    
+    if(isset($_SESSION["shopping_cart"])) {  
+        $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");  
+        if(!in_array($_GET["id"], $item_array_id)) {  
+              $count = count($_SESSION["shopping_cart"]);  
+              $item_array = array(  
+                   'item_id'               =>     $_GET["id"],  
+                   'item_name'               =>     $_POST["hidden_name"],  
+                   'item_price'          =>     $_POST["hidden_price"],  
+                   'item_quantity'          =>     $_POST["quantity"]  
+              );  
+              $_SESSION["shopping_cart"][$count] = $item_array;  
+        } else {  
+            array_push($success, "Item Already Added");
+            header('location: product.php');
+            //   echo '<script>alert("Item Already Added")</script>';  
+            //   echo '<script>window.location="product.php"</script>';  
+        }  
+    } else {  
+        $item_array = array(  
+              'item_id'               =>     $_GET["id"],  
+              'item_name'               =>     $_POST["hidden_name"],  
+              'item_price'          =>     $_POST["hidden_price"],  
+              'item_quantity'          =>     $_POST["quantity"]  
+         );  
+         $_SESSION["shopping_cart"][0] = $item_array;  
+    }  
+}  
+if(isset($_GET["action"]))  
+{  
+    if($_GET["action"] == "delete")  
+    {  
+         foreach($_SESSION["shopping_cart"] as $keys => $values)  
+         {  
+            if($values["item_id"] == $_GET["id"])  
+            {  
+                unset($_SESSION["shopping_cart"][$keys]); 
+                array_push($success, "Item removed");
+                header('location: product.php'); 
+                //    echo '<script>alert("Item Removed")</script>';  
+                //    echo '<script>window.location="product.php"</script>';  
+            }  
+         }  
+    }
 
     
 } else {
@@ -71,11 +75,11 @@ if (isset($_POST["add"])) {
                 <figure>
                     <form method="post" action="product.php?action=add&id=<?php echo $row["id"]; ?>">
                         <img class="img" src="<?php echo $row['image']?>">
-                        <span class="id">ID: <?php echo $row['id'];?></span>
+                        <span class="id" name="id">ID: <?php echo $row['id'];?></span>
                         <h4 class="text-info"><?php echo $row["name"]; ?></h4>
                         <input type="text" name="quantity" class="form-control" value="1" />  
                         <h4 class="text-danger">$ <?php echo $row["price"]; ?></h4>
-                        <input type="button" class="button" type="submit" name="add" value="Add to cart">
+                        <input class="button" type="submit" name="add" value="Add to cart">
                         <input type="hidden" name="hidden_name" value="<?php echo $row['name']?>">
                         <input type="hidden" name="hidden_price" value="<?php echo $row['price']?>">
                     </form>
@@ -96,7 +100,7 @@ if (isset($_POST["add"])) {
                 <th width="5%">Action</th>  
             </tr>  
 
-            <!-- <?php   
+            <?php   
             if(!empty($_SESSION["shopping_cart"]))  {  
                 $total = 0;  
                 foreach($_SESSION["shopping_cart"] as $keys => $values)  
@@ -120,7 +124,7 @@ if (isset($_POST["add"])) {
             </tr>  
             <?php  
             }  
-            ?>   -->
+            ?>  
         </table>  
     </div>
 </body>
