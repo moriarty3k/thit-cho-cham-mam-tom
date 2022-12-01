@@ -63,10 +63,14 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `image`, `amount`) VALUES
-(1, 'samuel1', 500, '/product-img/image1.jpg', 6),
-(2, 'samuel2', 420, '/product-img/image2.jpg', 4),
-(68, 'samuel3', 690, '/product-img/image3.jpg', 2),
-(419, 'samuel4', 111, '/product-img/image4.jpg', 0);
+('1', 'Combo đầy đủ', '300', '/product-img/1.jpg', '10'), 
+('2', 'Thịt thêm', '150', '/product-img/2.jpg', '10'), 
+('3', 'Dồi thêm', '150', '/product-img/3.jpg', '10'), 
+('4', 'Rau thơm thêm', '15', '/product-img/4.jpg', '10'), 
+('5', 'Mắm tôm thêm', '5', '/product-img/5.jpg', '10'), 
+('6', 'Bún thêm', '20', '/product-img/6.jpg', '10'), 
+('7', 'Siro cay táo mèo', '50', '/product-img/7.jpg', '10'), 
+('8', 'Nước ngọt các loại', '15', '/product-img/8.jpg', '10');;
 
 -- --------------------------------------------------------
 
