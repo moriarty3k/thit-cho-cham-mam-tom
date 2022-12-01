@@ -6,9 +6,11 @@ $query = "SELECT id, name, price, image FROM products";
 $result = mysqli_query($db,$query);
 
 
+
 if (isset($_POST["add"])) {
     
     if(isset($_SESSION["shopping_cart"])) {  
+        $_SESSION["success"] = "Item added!";
         $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");  
         if(!in_array($_GET["id"], $item_array_id)) {  
               $count = count($_SESSION["shopping_cart"]);  
@@ -19,12 +21,14 @@ if (isset($_POST["add"])) {
                    'item_quantity'          =>     $_POST["quantity"]  
               );  
               $_SESSION["shopping_cart"][$count] = $item_array;  
-        } else {  
-            array_push($success, "Item Already Added");
-            header('location: product.php');
-            //   echo '<script>alert("Item Already Added")</script>';  
-            //   echo '<script>window.location="product.php"</script>';  
-        }  
+              
+         } 
+        //else {  
+            
+        //     // header('location: product.php');
+        //     $_SESSION["error"] = "Item already added!";
+        //     ;  
+        // }  
     } else {  
         $item_array = array(  
               'item_id'               =>     $_GET["id"],  
@@ -53,9 +57,7 @@ if(isset($_GET["action"]))
     }
 
     
-} else {
-    array_push($errors, "ko");
-}
+} 
 ?> 
 
 <!DOCTYPE html>
@@ -63,12 +65,49 @@ if(isset($_GET["action"]))
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Products</title>
+    <style>
+
+    .error {
+    width: 60%; 
+    margin: 0px auto; 
+    padding: 10px; 
+    border: 1px solid #a94442; 
+    color: #a94442; 
+    background: #f2dede; 
+    border-radius: 5px; 
+    text-align: center;
+  }
+
+    .success {
+    width: 60%; 
+    margin: 0px auto; 
+    padding: 10px; 
+    color: #3c763d; 
+    background: #dff0d8; 
+    border: 1px solid #3c763d; 
+    border-radius: 5px; 
+    text-align: center;
+  }
+    </style>
     <link rel="stylesheet" type="text/css" href="/css/product.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 </head>
 <!--Changing the number in the column_# class changes the number of columns-->
 <body>
     <div id="wrap">
+        <!-- notification message -->
+        <?php if (isset($_SESSION['success'])) : ?>
+            <div class="success">
+                <h3>
+                <?php 
+                    echo $_SESSION['success']; 
+                    unset($_SESSION['success']);
+                ?>
+                </h3>
+            </div>	
+        <?php endif ?>
+        
+        
         <div id="columns" class="columns_4">
         <?php  if (mysqli_num_rows($result) > 0) : ?> 
             <?php while($row = mysqli_fetch_assoc($result)) : ?>
@@ -92,6 +131,7 @@ if(isset($_GET["action"]))
     <div style="width:700px; align:center" class="container table-responsive" >
         <h3>Order Details</h3> 
         <table class="table table-bordered">  
+            
             <tr>  
                 <th width="40%">Item Name</th>  
                 <th width="10%">Quantity</th>  
