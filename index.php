@@ -23,10 +23,11 @@ if (isset($_GET['logout'])) {
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-
+<?php include('navbar.php'); ?>
 <div class="header">
 	<h2>Home Page</h2>
 </div>
+
 <div class="content">
   	<!-- notification message -->
   	<?php if (isset($_SESSION['success'])) : ?>
@@ -54,10 +55,7 @@ if (isset($_GET['logout'])) {
 			Your balance is: 
 			<b><?php echo $_SESSION['balance']; //balance check ?> </b> banana(s)
 		</p>
-    	<p> <a href="index.php?logout='1'" style="color: red;">logout</a> </p>
-		<p> <a href="transfer.php" style="color: blue;">money transfer</a> </p>
-		<p> <a href="recharge.php" style="color: green;">money recharge</a> </p>
-		<p> <a href="product.php" style="color: salmon;">shopping</a> </p>
+    	
 			<!--cookie check, will delete!! -->
 			
 			
