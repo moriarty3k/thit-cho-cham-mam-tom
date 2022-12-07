@@ -53,6 +53,7 @@ INSERT INTO `card` (`id`, `info`, `cardnumber`, `cardvalue`, `state`) VALUES
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `code` varchar(50) NOT NULL,
   `price` int(11) NOT NULL,
   `image` varchar(50) NOT NULL,
   `amount` int(11) NOT NULL
@@ -62,15 +63,15 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `price`, `image`, `amount`) VALUES
-('1', 'Combo đầy đủ', '300', '/product-img/1.jpg', '10'), 
-('2', 'Thịt thêm', '150', '/product-img/2.jpg', '10'), 
-('3', 'Dồi thêm', '150', '/product-img/3.jpg', '10'), 
-('4', 'Rau thơm thêm', '15', '/product-img/4.jpg', '10'), 
-('5', 'Mắm tôm thêm', '5', '/product-img/5.jpg', '10'), 
-('6', 'Bún thêm', '20', '/product-img/6.jpg', '10'), 
-('7', 'Siro cay táo mèo', '50', '/product-img/7.jpg', '10'), 
-('8', 'Nước ngọt các loại', '15', '/product-img/8.jpg', '10');;
+INSERT INTO `products` (`id`, `name`, `code`,`price`, `image`, `amount`) VALUES
+('1', 'Combo đầy đủ', 'SAMUEL0','300', '/product-img/1.jpg', '10'), 
+('2', 'Thịt thêm', 'SAMUEL1','150', '/product-img/2.jpg', '10'), 
+('3', 'Dồi thêm', 'SAMUEL2','150', '/product-img/3.jpg', '10'), 
+('4', 'Rau thơm thêm', 'SAMUEL3','15', '/product-img/4.jpg', '10'), 
+('5', 'Mắm tôm thêm', 'SAMUEL4','5', '/product-img/5.jpg', '10'), 
+('6', 'Bún thêm', 'SAMUEL5','20', '/product-img/6.jpg', '10'), 
+('7', 'Siro cay táo mèo', 'SAMUEL6','50', '/product-img/7.jpg', '10'), 
+('8', 'Nước ngọt các loại', 'SAMUEL7','15', '/product-img/8.jpg', '10');;
 
 -- --------------------------------------------------------
 
@@ -111,6 +112,7 @@ ALTER TABLE `card`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
+  ADD UNIQUE KEY `product_code` (`code`);
 
 --
 -- Indexes for table `users`
