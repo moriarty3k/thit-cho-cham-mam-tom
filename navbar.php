@@ -159,7 +159,6 @@ body {
         <a href="index.php?logout='1'" style="color: red;">Logout</a>
     </div>
   </div>
-  <a style="float: right" href="cart.php">Cart</a>
  
 </div>
 

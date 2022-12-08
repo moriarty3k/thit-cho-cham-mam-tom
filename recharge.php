@@ -1,6 +1,6 @@
 <?php
 include('server.php');
-//session_start();	
+
 $user_balance = $_SESSION['balance'];
 $user = $_SESSION['username'];
 $random = rand(1000,9999);
@@ -66,6 +66,7 @@ if (isset($_POST['money_recharge'])) {
 <!DOCTYPE html>
 <html>
 <head>
+  <?php include('navbar.php')?>
   <title>Money Recharge</title>
   <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
@@ -95,8 +96,7 @@ if (isset($_POST['money_recharge'])) {
   	<div class="input-group">
   		<button type="submit" class="btn" name="money_recharge">Recharge</button>
   	</div>
-    <p> <a href="index.php" style="color: blue;">home page</a> </p>
-    <p> <a href="transfer.php" style="color: red;">money transfer</a> </p>
+    
 
   </form>
 </body>

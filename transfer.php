@@ -60,6 +60,7 @@ if (isset($_POST['money_trans'])) {
 <!DOCTYPE html>
 <html>
 <head>
+  <?php include('navbar.php')?>
   <title>Money Transfer</title>
   <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
@@ -93,9 +94,6 @@ if (isset($_POST['money_trans'])) {
   	<div class="input-group">
   		<button type="submit" class="btn" name="money_trans">Send</button>
   	</div>
-    <p> <a href="index.php" style="color: blue;">home page</a> </p>
-    <p> <a href="recharge.php" style="color: green;">money recharge</a> </p>
-
   </form>
 </body>
 </html>

@@ -1,6 +1,5 @@
 <?php
-session_start();
-require_once("dbcontroller.php");
+include("server.php");
 $db_handle = new DBController();
 if(!empty($_GET["action"])) {
     switch($_GET["action"]) {
@@ -17,14 +16,17 @@ if(!empty($_GET["action"])) {
                                         $_SESSION["cart_item"][$k]["quantity"] = 0;
                                     }
                                     $_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
+                                    header('location:product.php');
                                 }
                         }
                     } else {
                         $_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArray);
+                        header('location:product.php');
                     }
                 } else {
                     $_SESSION["cart_item"] = $itemArray;
-                }
+                    header('location:product.php');
+                } 
             }
         break;
         case "remove":
@@ -35,10 +37,12 @@ if(!empty($_GET["action"])) {
                         if(empty($_SESSION["cart_item"]))
                             unset($_SESSION["cart_item"]);
                 }
+                header('location:product.php');
             }
         break;
         case "empty":
             unset($_SESSION["cart_item"]);
+            header('location:product.php');
         break;	
     }
 }
@@ -115,13 +119,15 @@ if(!empty($_GET["action"])) {
                 <?php
                         $total_quantity += $item["quantity"];
                         $total_price += ($item["price"]*$item["quantity"]);
+                        
                         }
+                        $_SESSION["price"] = $total_price;
                 ?>
                 <tr>
                     <td colspan="2" align="right">Total:</td>
                     <td align="right"><?php echo $total_quantity; ?></td>
                     <td align="right" colspan="2"><strong><?php echo "$ ".number_format($total_price, 2); ?></strong></td>
-                    <td></td>
+                    <td style="text-align:center;"><a href="payment.php" class="">Buy now!!</a></td>
                 </tr>
             </tbody>
         </table>
