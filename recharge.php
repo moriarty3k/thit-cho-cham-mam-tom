@@ -27,7 +27,7 @@ if (isset($_POST['money_recharge'])) {
     }
     if (empty($captcha) || $captcha != $captchacheck ) { //captcha check
 		array_push($errors, "Wrong Captcha");
-	}
+	  }
     
     if (count($errors) == 0) {
         if ($card['state'] == 0) {

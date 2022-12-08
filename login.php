@@ -85,11 +85,12 @@ if(!empty($_POST["remember"])) {
 	</div>
 	<div class="input-group captcha-code">
 		<label>Captcha code:</label>
-		<input type="hidden" name="captcha-check" value="<?php echo $random;//lưu random vào $_session?>"> 
+		<input type="hidden" name="captcha-check" value="<?php echo $random;?>"> 
 		<div class="captcha-ran" ><?php echo $random;?></div>  
 	</div>
-  	<div class="input-group">
+  	
 	<!-- captcha -->
+	<div class="input-group">
   		<button type="submit" class="btn" name="login_user">Login</button>
   	</div>
 	<div class="check">

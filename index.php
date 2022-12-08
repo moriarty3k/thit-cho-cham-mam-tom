@@ -55,16 +55,6 @@ if (isset($_GET['logout'])) {
 			Your balance is: 
 			<b><?php echo $_SESSION['balance']; //balance check ?> </b> banana(s)
 		</p>
-    	
-			<!--cookie check, will delete!! -->
-			
-			
-			<!-- <?php if (isset($_COOKIE['username']) && $_COOKIE['username']==$_SESSION['username']) { 
-						echo  'hello again!';
-							} else {
-						echo 'no cookie 4 u';
-					}
-			?> -->
  
     <?php endif ?>
 </div>
