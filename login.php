@@ -1,8 +1,5 @@
 <?php 
 include('server.php');
-
-$random = rand(1000,9999);
-
 if (isset($_SESSION['username'])) {
 	header('location: index.php');
 }
@@ -10,8 +7,8 @@ if (isset($_POST['login_user'])) {
 	$username = mysqli_real_escape_string($db, $_POST['username']);
 	$password = mysqli_real_escape_string($db, $_POST['password']);
 	
-	$captcha = $_REQUEST['captcha'];
-	$captchacheck = $_REQUEST['captcha-check'];
+	// $captcha = $_REQUEST['captcha'];
+	// $captchacheck = $random;
 	
 
 	if (empty($username)) {
@@ -21,9 +18,9 @@ if (isset($_POST['login_user'])) {
 		array_push($errors, "Password is required");
 	}
 
-	if (empty($captcha) || $captcha != $captchacheck ) { //captcha check
-		array_push($errors, "Wrong Captcha");
-	}
+	// if (empty($captcha) || $captcha != $random ) { //captcha check
+	// 	array_push($errors, "Wrong Captcha");
+	// }
   
 	if (count($errors) == 0) {
 		$query = "SELECT * FROM users WHERE username='$username'";
@@ -70,6 +67,28 @@ if(!empty($_POST["remember"])) {
 
   <form method="post" action="login.php">
   	<?php include('noti.php'); ?>
+	<!-- notification message -->
+	<?php if (isset($_SESSION['success'])) : ?>
+      <div class=" success" >
+      	<p>
+          <?php 
+          	echo $_SESSION['success']; 
+          	unset($_SESSION['success']);
+          ?>
+      	</p>
+      </div>	
+  	<?php endif ?>
+	  <?php if (isset($_SESSION['error'])) : ?>
+      <div class="error" >
+      	<p>
+          <?php 
+          	echo $_SESSION['error']; 
+          	unset($_SESSION['error']);
+          ?>
+      	</p>
+      </div>
+  	<?php endif ?>
+
   	<div class="input-group">
   		<label>Username</label>
   		<input type="text" name="username" value="<?php if(isset($_COOKIE["username"])) { echo $_COOKIE["username"]; } ?>">
@@ -78,18 +97,17 @@ if(!empty($_POST["remember"])) {
   		<label>Password</label>
   		<input type="password" name="password" value="<?php if(isset($_COOKIE["password"])) { echo $_COOKIE["password"]; } ?>">
   	</div>
-	<!-- captcha -->
+	<!-- captcha
 	<div class="input-group captcha-code">
 		<label>Enter Captcha</label>
 		<input type='text' name="captcha"> 
 	</div>
 	<div class="input-group captcha-code">
 		<label>Captcha code:</label>
-		<input type="hidden" name="captcha-check" value="<?php echo $random;?>"> 
 		<div class="captcha-ran" ><?php echo $random;?></div>  
 	</div>
   	
-	<!-- captcha -->
+	captcha -->
 	<div class="input-group">
   		<button type="submit" class="btn" name="login_user">Login</button>
   	</div>

@@ -1,17 +1,35 @@
 <?php 
 include('server.php');
+
+
 if (!isset($_SESSION['username'])) {
+    $_SESSION['error'] = "You need to login first!";
     header('location:login.php');
 }
 if (!isset($_SESSION['cart_item'])) {
     header('location:product.php');
 }
-if (isset($_POST['pay'])) {
-    $query1 = "UPDATE users SET balance='$user_balance' WHERE username='$user'";
-            mysqli_query($db, $query1);
-    //header('location:index.php');
-}
 
+if (count($errors) == 0) {
+
+    if (isset($_POST['pay'])) {
+        $new_balance = $_SESSION['balance'] - $_SESSION['price'];
+        $query1 = "UPDATE users SET balance='$new_balance' WHERE username=' ". $_SESSION['username'] ." '";
+                mysqli_query($db, $query1);
+        foreach($_SESSION['cart_item'] as $k=>$v){
+            $new_amount = $_SESSION["cart_item"][$k]["amount"] -  $_SESSION["cart_item"][$k]["quantity"];
+            $code = $_SESSION["cart_item"][$k]["code"];
+            $query1 = "UPDATE products SET amount='$new_amount' WHERE code='$code'";
+                mysqli_query($db, $query1);
+        }
+        $_SESSION['balance'] = $new_balance;
+        
+
+        $_SESSION['success'] = "Successful Payment";
+        unset($_SESSION['cart_item']);
+        header('location:index.php');
+    }
+}
 
 
 

@@ -42,6 +42,7 @@ if (isset($_GET['logout'])) {
   	<?php endif ?> 
 
     <!-- logged in user information -->
+	
     <?php  if (isset($_SESSION['username'])) : ?>
     	<p>
 			Welcome 

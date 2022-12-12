@@ -5,6 +5,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
 body {
   margin: 0;
@@ -65,7 +66,7 @@ body {
 
 .dropdown-content {
   display: none;
-  position: absolute;
+  position: fixed;
   background-color: #f9f9f9;
   min-width: 145px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -76,7 +77,7 @@ body {
   float: right;
   display: none;
   right: 0;
-  position: absolute;
+  position: fixed;
   background-color: #f9f9f9;
   min-width: 120px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);

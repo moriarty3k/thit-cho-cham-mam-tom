@@ -4,12 +4,14 @@ $db_handle = new DBController();
 if(!empty($_GET["action"])) {
     switch($_GET["action"]) {
         case "add":
+            
             if(!empty($_POST["quantity"])) {
                 $productByCode = $db_handle->runQuery("SELECT * FROM products WHERE code='" . $_GET["code"] . "'");
-                $itemArray = array($productByCode[0]["code"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"]));
+                $itemArray = array($productByCode[0]["code"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"], 'amount'=>$productByCode[0]["amount"]));
+               
                 
                 if(!empty($_SESSION["cart_item"])) {
-                    if(in_array($productByCode[0]["code"],array_keys($_SESSION["cart_item"]))) {
+                    if(in_array($productByCode[0]["code"],array_keys($_SESSION["cart_item"]))) { //tìm product code trong array $session cart_item
                         foreach($_SESSION["cart_item"] as $k => $v) {
                                 if($productByCode[0]["code"] == $k) {
                                     if(empty($_SESSION["cart_item"][$k]["quantity"])) {
@@ -18,7 +20,17 @@ if(!empty($_GET["action"])) {
                                     $_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
                                     header('location:product.php');
                                 }
-                        }
+                                $_SESSION["cart_item"][$k]["amount"] = $productByCode[$k]['amount'];
+                                // $code = $productByCode[$k]["code"];
+                                // if($productByCode[$k]["amount"] < $_SESSION["cart_item"][$k]["quantity"]) {
+                                //     //header("location:product.php?action=remove&code=$code");
+                                //     echo $code;
+                                // }
+                        } 
+                            
+                           
+
+                            
                     } else {
                         $_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArray);
                         header('location:product.php');
@@ -57,6 +69,7 @@ if(!empty($_GET["action"])) {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 </head>
 <body>
+    <?php include('navbar.php')?>
     <div id="wrap">
         <div id="columns" class="columns_4">
             <?php
@@ -67,7 +80,6 @@ if(!empty($_GET["action"])) {
                 <figure>
                     <form method="post" action="product.php?action=add&code=<?php echo $product_array[$key]["code"]; ?>">
                         <img class="img"src="<?php echo $product_array[$key]["image"]; ?>">
-                        
                         <div class="text-info"><?php echo $product_array[$key]["name"]; ?></div>
                         <div class="text-danger"><?php echo $product_array[$key]["price"]." BNN$"; ?></div>
                         <input type="text" class="form-control" name="quantity" value="1" />
@@ -82,9 +94,30 @@ if(!empty($_GET["action"])) {
             ?>
         <div>
     </div>
-
-
     <div id="shopping-cart">
+    <!-- notification message -->
+    <?php include('noti.php')?>
+	<?php if (isset($_SESSION['success'])) : ?>
+      <div class=" success" >
+      	<p>
+          <?php 
+          	echo $_SESSION['success']; 
+          	unset($_SESSION['success']);
+          ?>
+      	</p>
+      </div>	
+  	<?php endif ?>
+	  <?php if (isset($_SESSION['error'])) : ?>
+      <div class="error" >
+      	<p>
+          <?php 
+          	echo $_SESSION['error']; 
+          	unset($_SESSION['error']);
+          ?>
+      	</p>
+      </div>
+  	<?php endif ?>
+	  
     <a id="btnEmpty" href="product.php?action=empty">Empty Cart</a>
     <?php
         if(isset($_SESSION["cart_item"])){
@@ -108,7 +141,7 @@ if(!empty($_GET["action"])) {
                         $item_price = $item["quantity"]*$item["price"];
                 ?>
                     <tr>
-                        <!-- <td><img src="<?php echo $item["image"]; ?>" class="cart-item-image" /><?php echo $item["name"]; ?></td> -->
+                      
                         <td><?php echo $item["name"]; ?></td>
                         <td><?php echo $item["code"]; ?></td>
                         <td style="text-align:right;"><?php echo $item["quantity"]; ?></td>

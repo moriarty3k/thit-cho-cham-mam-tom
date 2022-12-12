@@ -3,7 +3,7 @@ include('server.php');
 
 $user_balance = $_SESSION['balance'];
 $user = $_SESSION['username'];
-$random = rand(1000,9999);
+
 
 
 if (!isset($_SESSION['username'])) {
@@ -16,18 +16,14 @@ if (isset($_POST['money_recharge'])) {
     $result = mysqli_query($db, $query);
     $card =  mysqli_fetch_assoc($result);
 
-    $captcha = $_REQUEST['captcha'];
-    $captchacheck = $_REQUEST['captcha-check'];
-
+  
     if (empty($cardnum)) { 
 		array_push($errors, "Card number is required");
     }
     if (!isset($card['cardnumber'])) {
         array_push($errors, "Invalid card number");
     }
-    if (empty($captcha) || $captcha != $captchacheck ) { //captcha check
-		array_push($errors, "Wrong Captcha");
-	  }
+   
     
     if (count($errors) == 0) {
         if ($card['state'] == 0) {
@@ -81,7 +77,7 @@ if (isset($_POST['money_recharge'])) {
   		<label>Card number</label>
   		<input type="text"  onkeypress="return /[0-9]/i.test(event.key)" name="card_num">
   	</div>
-    <!-- captcha -->
+    <!-- captcha 
 	<div class="input-group captcha-code">
 		<label>Enter Captcha</label>
 		<input type='text' name="captcha"> 
@@ -92,7 +88,7 @@ if (isset($_POST['money_recharge'])) {
 		<div class="captcha-ran" ><?php echo $random;?></div>  
 	</div>
   	<div class="input-group">
-	<!-- captcha -->
+	 captcha -->
   	<div class="input-group">
   		<button type="submit" class="btn" name="money_recharge">Recharge</button>
   	</div>

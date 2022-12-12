@@ -1,8 +1,8 @@
 <?php 
 include('server.php');
-//session_start();	
+	
 $user_balance = $_SESSION['balance'];
-$random = rand(1000,9999);
+
 
 
 if (!isset($_SESSION['username'])) {
@@ -10,9 +10,7 @@ if (!isset($_SESSION['username'])) {
   	header('location: login.php');
 } 
 if (isset($_POST['money_trans'])) {
-  
-  $captcha = $_REQUEST['captcha'];
-  $captchacheck = $_REQUEST['captcha-check'];
+
 
     $receiver = mysqli_real_escape_string($db, $_POST['receiver']);
     $amount = mysqli_real_escape_string($db, $_POST['amount']);
@@ -31,12 +29,13 @@ if (isset($_POST['money_trans'])) {
     if ($amount > $_SESSION['balance'] || $_SESSION['balance'] == 0){
         array_push($errors, "Not enough banana");
   }
+  if ($amount < 0){
+    array_push($errors, "Wrong amount!!");
+}
     if ($username == $user['username']) {
         array_push($errors, "User Error!!");
   }
-  if (empty($captcha) || $captcha != $captchacheck ) { //captcha check
-		array_push($errors, "Wrong Captcha");
-	}
+  
     if (count($errors) == 0) {
         $receiver_balance = $user['balance'] + $amount;
         $user_balance = $_SESSION['balance'] - $amount;
@@ -80,7 +79,7 @@ if (isset($_POST['money_trans'])) {
   		<label>Amount</label>
   		<input type="text" name="amount" onkeypress="return /[0-9]/i.test(event.key)">
   	</div>
-    <!-- captcha -->
+    <!-- captcha
     <div class="input-group captcha-code">
 		<label>Enter Captcha</label>
 		<input type='text' name="captcha"> 
@@ -90,7 +89,7 @@ if (isset($_POST['money_trans'])) {
 		<input type="hidden" name="captcha-check" value="<?php echo $random;//lưu random vào $_session?>"> 
 		<div class="captcha-ran" ><?php echo $random;?></div>  
 	</div>
-    <!-- captcha -->
+     captcha -->
   	<div class="input-group">
   		<button type="submit" class="btn" name="money_trans">Send</button>
   	</div>
