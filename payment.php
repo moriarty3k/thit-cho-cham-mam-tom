@@ -10,8 +10,11 @@ if (!isset($_SESSION['cart_item'])) {
     header('location:product.php');
 }
 
-if (count($errors) == 0) {
-
+if ($_SESSION['balance']  < $_SESSION['price']) {
+    $_SESSION['error'] = "You don't have enough money!";
+    header('location:index.php');
+    
+} else {
     if (isset($_POST['pay'])) {
         $new_balance = $_SESSION['balance'] - $_SESSION['price'];
         $query1 = "UPDATE users SET balance='$new_balance' WHERE username=' ". $_SESSION['username'] ." '";
@@ -30,7 +33,6 @@ if (count($errors) == 0) {
         header('location:index.php');
     }
 }
-
 
 
 ?>
