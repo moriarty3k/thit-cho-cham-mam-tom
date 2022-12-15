@@ -5,6 +5,7 @@ $db_handle = new DBController();
 if(!empty($_GET["action"])) {
     switch($_GET["action"]) {
         case "add":
+           
             $productByCode = $db_handle->runQuery("SELECT * FROM products WHERE code='" . $_GET["code"] . "'");
             $itemArray = array($productByCode[0]["code"]=>array('name'=>$productByCode[0]["name"], 'code'=>$productByCode[0]["code"], 'quantity'=>$_POST["quantity"], 'price'=>$productByCode[0]["price"], 'image'=>$productByCode[0]["image"], 'amount'=>$productByCode[0]["amount"]));
             
@@ -12,19 +13,20 @@ if(!empty($_GET["action"])) {
                 if(!empty($_SESSION["cart_item"])) {
                     if(in_array($productByCode[0]["code"],array_keys($_SESSION["cart_item"]))) { //tìm product code trong array $session cart_item
                         foreach($_SESSION["cart_item"] as $k => $v) {
-                                                        
+                        
                                 if($productByCode[0]["code"] == $k) {
                                     if(empty($_SESSION["cart_item"][$k]["quantity"])) {
                                         $_SESSION["cart_item"][$k]["quantity"] = 0;  
                                     }
+                                        $_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
                                     
-                                    $_SESSION["cart_item"][$k]["quantity"] += $_POST["quantity"];
                                     if ($_SESSION["cart_item"][$k]["quantity"] > $itemArray[$k]["amount"]) {
                                         $_SESSION["cart_item"][$k]["quantity"] = $itemArray[$k]["amount"];
-                                    }                                         
+                                    }    
+                                                                         
                                     header('location:product.php');
                                 }
-                                $_SESSION["cart_item"][$k]["amount"] = $itemArray[$k]['amount'];
+                               
                                
                                 
                                 
@@ -33,9 +35,10 @@ if(!empty($_GET["action"])) {
                         $_SESSION["cart_item"] = array_merge($_SESSION["cart_item"],$itemArray);
                         header('location:product.php');
                     }
-                } else {
+                } else {              
                     $_SESSION["cart_item"] = $itemArray;
                     header('location:product.php');
+                    
                 } 
             }
             
@@ -149,7 +152,15 @@ if(!empty($_GET["action"])) {
                       
                         <td><?php echo $item["name"]; ?></td>
                         <td><?php echo $item["code"]; ?></td>
-                        <td style="text-align:right;"><?php echo $item["quantity"]; ?></td>
+                        <td style="text-align:right;"><?php 
+                        if($item["quantity"] < $item["amount"] ){
+                            echo $item["quantity"];
+                        } else {
+                            $item["quantity"] = $item["amount"];
+                            echo $item["quantity"];
+                        }
+
+                        ?></td>
                         <td  style="text-align:right;"><?php echo $item["price"]." BNN$"; ?></td>
                         <td  style="text-align:right;"><?php echo number_format($item_price,2)." BNN$"; ?></td>
                         <td style="text-align:center; font-color:red;"><a href="product.php?action=remove&code=<?php echo $item["code"]; ?>" class="btnRemoveAction" >Remove Item</a></td>
