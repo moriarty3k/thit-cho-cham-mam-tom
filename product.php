@@ -146,7 +146,7 @@ if(!empty($_GET["action"])) {
                 </tr>	
                 <?php		
                     foreach ($_SESSION["cart_item"] as $item){
-                        $item_price = $item["quantity"]*$item["price"];
+                        
                 ?>
                     <tr>
                       
@@ -159,10 +159,10 @@ if(!empty($_GET["action"])) {
                             $item["quantity"] = $item["amount"];
                             echo $item["quantity"];
                         }
-
+                            $item_price = $item["quantity"]*$item["price"];
                         ?></td>
                         <td  style="text-align:right;"><?php echo $item["price"]." BNN$"; ?></td>
-                        <td  style="text-align:right;"><?php echo number_format($item_price,2)." BNN$"; ?></td>
+                        <td  style="text-align:right;"><?php echo $item_price." BNN$"; ?></td>
                         <td style="text-align:center; font-color:red;"><a href="product.php?action=remove&code=<?php echo $item["code"]; ?>" class="btnRemoveAction" >Remove Item</a></td>
                     </tr>
                 <?php

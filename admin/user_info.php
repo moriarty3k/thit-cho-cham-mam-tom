@@ -8,7 +8,8 @@
         unset($_SESSION['username']);
         header("location: login.php");
     }
-    if ($_SESSION['role'] != 'admin') {
+    if ($_SESSION['role'] != 'admin
+    ') {
         $_SESSION['msg'] = "You are not admin";
         header('location: index.php');
     }
