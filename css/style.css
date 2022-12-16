@@ -27,6 +27,13 @@ form, .content {
   border-radius: 0px 0px 10px 10px;
 }
 
+.avt {
+  object-fit: cover;
+  vertical-align: middle;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
 
 
 .input-group {

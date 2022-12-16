@@ -1,7 +1,10 @@
 <?php 
 include('server.php');
-$discount = 0;
+$username = $_SESSION['username'];
 
+$query = "SELECT * FROM users WHERE username='$username '";
+$results = mysqli_query($db, $query);
+$user = mysqli_fetch_assoc($results);
 
 if (!isset($_SESSION['username'])) {
     $_SESSION['error'] = "You need to login first!";
@@ -12,15 +15,23 @@ if (!isset($_SESSION['cart_item'])) {
     header('location:product.php');
 }
 
-if ($_SESSION['balance']  < $_SESSION['price']) {
+if ($user['balance']  < $_SESSION['price']) {
     $_SESSION['error'] = "You don't have enough money!";
     header('location:index.php');
     
+}
+if($user['role'] == 'admin'){
+    $discount = 90;
+   
+} else if ($user['role'] == 'vip'){
+    $discount = 30;
+    
 } else {
+    $discount = 0;
+    
+} 
     if (isset($_POST['pay'])) {
-        $new_balance = $_SESSION['balance'] - $_SESSION['price'];
-        $query1 = "UPDATE users SET balance='$new_balance' WHERE username=' ". $_SESSION['username'] ." '";
-                mysqli_query($db, $query1);
+        
         foreach($_SESSION['cart_item'] as $k=>$v){
             //$new_amount = $_SESSION["cart_item"][$k]["amount"] -  $_SESSION["cart_item"][$k]["quantity"];
             if($_SESSION["cart_item"][$k]['amount'] < $_SESSION["cart_item"][$k]["quantity"]){
@@ -29,17 +40,18 @@ if ($_SESSION['balance']  < $_SESSION['price']) {
                 $new_amount = $_SESSION["cart_item"][$k]["amount"] -  $_SESSION["cart_item"][$k]["quantity"];
             }
             $code = $_SESSION["cart_item"][$k]["code"];
-            $query1 = "UPDATE products SET amount='$new_amount' WHERE code='$code'";
-                mysqli_query($db, $query1);
+            $query2 = "UPDATE products SET amount='$new_amount' WHERE code='$code'";
+                mysqli_query($db, $query2);
         }
-        $_SESSION['balance'] = $new_balance;
+        $new_balance = $user['balance'] - ($_SESSION['price'] - $_SESSION['price']*$discount/100);
+        $query1 = "UPDATE users SET balance='$new_balance' WHERE username='$username '";
+                mysqli_query($db, $query1);
         
-
         $_SESSION['success'] = "Successful Payment";
         unset($_SESSION['cart_item']);
         header('location:index.php');
     }
-}
+
 
 
 ?>
@@ -64,37 +76,27 @@ if ($_SESSION['balance']  < $_SESSION['price']) {
             </p>
             <p>
                 You are: 
-                <b><?php echo $_SESSION['role']?> </b>
+                <b><?php echo $user['role']?> </b>
             </p>	
             <p>
                 Your balance is: 
-                <b><?php echo $_SESSION['balance']; //balance check ?> </b> banana(s)
+                <b><?php echo $user['balance']; //balance check ?> </b> banana(s)
             </p>
             
-            <p> Discount: 
-                <b>
+            <b style="color:red"> Discount: 
+                <b style="color:red">
                     <?php 
-                    
-                    if($_SESSION['role'] = 'admin'){
-                        $discount = 90/100;
-                        echo '90%';
-                    } else if ($_SESSION['role'] = 'vip'){
-                        $discount = 30/100;
-                        echo '30%';
-                    } else {
-                        $discount = 0;
-                        echo '0%';
-                    }
-                    ?>
+                    echo $discount;
+                    ?> %
                 </b>
-            </p>
+            </b>
             
             <p>
                 You need to pay: 
                 <b style="color:red">
                 <?php 
-                    $_SESSION['price'] -= $_SESSION['price']*$discount; 
-                    echo $_SESSION['price'];
+                    $pay = $_SESSION['price'] - $_SESSION['price']*$discount/100; 
+                    echo $pay;
                 ?> 
                 </b> banana(s)
             </p>

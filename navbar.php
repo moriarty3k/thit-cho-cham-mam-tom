@@ -156,7 +156,7 @@ body {
     <button class="dropbtn" onclick="myFunction2()">About
     </button>
     <div class="dropdown-content-2" id="about">
-        <a href="#.php">abc</a>
+        <a href="profile.php">Profile</a>
         <a href="index.php?logout='1'" style="color: red;">Logout</a>
     </div>
   </div>

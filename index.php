@@ -1,6 +1,5 @@
 <?php 
-include('server.php');
-//session_start();	
+include('server.php');	
 
 
 if (!isset($_SESSION['username'])) {
@@ -12,7 +11,10 @@ if (isset($_GET['logout'])) {
   	unset($_SESSION['username']);
   	header("location: login.php");
 }
-
+$username = $_SESSION['username'];
+$query = "SELECT * FROM users WHERE username='$username '";
+$results = mysqli_query($db, $query);
+$user = mysqli_fetch_assoc($results);
 
 
 ?>
@@ -56,15 +58,15 @@ if (isset($_GET['logout'])) {
     <?php  if (isset($_SESSION['username'])) : ?>
     	<p>
 			Welcome 
-			<b><?php echo $_SESSION['username']; ?></b>
+			<b><?php echo $user['username']; ?></b>
 		</p>
 		<p>
 			You are: 
-			<b><?php echo $_SESSION['role']; //role check ?> </b>
+			<b><?php echo $user['role']; //role check ?> </b>
 		</p>	
 		<p>
 			Your balance is: 
-			<b><?php echo $_SESSION['balance']; //balance check ?> </b> banana(s)
+			<b><?php echo $user['balance']; //balance check ?> </b> banana(s)
 		</p>
  
     <?php endif ?>
