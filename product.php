@@ -91,11 +91,8 @@ if(!empty($_GET["action"])) {
                         <?php } else { ?>
                             <input type="button" value="Out of stock" style="background-color:salmon"class="button" disable/>
                         <?php } ?>
-                       
-                       
                     </form>
-                </figure>        
-                
+                </figure>                     
             <?php
                     }
                 }

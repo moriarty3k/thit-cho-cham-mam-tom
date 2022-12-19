@@ -68,6 +68,11 @@ $user = mysqli_fetch_assoc($results);
 			Your balance is: 
 			<b><?php echo $user['balance']; //balance check ?> </b> banana(s)
 		</p>
+		<?php if ($user['role'] == 'admin') { ?>
+			<a href='admin.php'>
+				Admin
+			</a>
+		<?php } ?>
  
     <?php endif ?>
 </div>

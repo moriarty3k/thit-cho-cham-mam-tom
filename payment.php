@@ -71,7 +71,7 @@ if (isset($_POST['pay'])) {
         <?php  if (isset($_SESSION['username'])) : ?>
             <p>
                 Welcome 
-                <b><?php echo $_SESSION['username']; ?></b>
+                <b><?php echo $user['username']; ?></b>
             </p>
             <p>
                 You are: 
