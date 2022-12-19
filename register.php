@@ -37,7 +37,9 @@ if (isset($_POST['reg_user'])) {
 		array_push($errors, "email already exists");
 	  }
 	}
-  
+	if ($_SESSION['captcha'] != $_POST['captcha']){ //captcha check
+		array_push($errors, "Wrong captcha");
+	}
 	// Finally, register user if there are no errors in the form
 	if (count($errors) == 0) {
 		$password = password_hash($password_1, PASSWORD_DEFAULT);//crypt_blowfish $2y$
@@ -86,6 +88,15 @@ if (isset($_POST['reg_user'])) {
   	  <label>Confirm password</label>
   	  <input type="password" name="password_2">
   	</div>
+	<!-- captcha -->
+	<div class="input-group captcha-code">
+		<label>Enter Captcha</label>
+		<input type='text' name="captcha"> 
+	</div>
+	<div class="input-group captcha-code">
+		<img src="captcha.php" alt="Captcha Image">  
+	</div>
+	<!-- end captcha -->
   	<div class="input-group">
   	  <button type="submit" class="btn" name="reg_user">Register</button>
   	</div>

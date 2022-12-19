@@ -1,5 +1,6 @@
 <?php 
 include('server.php');
+
 if (isset($_SESSION['username'])) {
 	header('location: index.php');
 }
@@ -7,8 +8,10 @@ if (isset($_POST['login_user'])) {
 	$username = mysqli_real_escape_string($db, $_POST['username']);
 	$password = mysqli_real_escape_string($db, $_POST['password']);
 	
-	// $captcha = $_REQUEST['captcha'];
-	// $captchacheck = $random;
+	
+	
+	
+	
 	
 
 	if (empty($username)) {
@@ -18,14 +21,13 @@ if (isset($_POST['login_user'])) {
 		array_push($errors, "Password is required");
 	}
 
-	// if (empty($captcha) || $captcha != $random ) { //captcha check
-	// 	array_push($errors, "Wrong Captcha");
-	// }
-  
-	if (count($errors) == 0) {
+	if ($_SESSION['captcha'] != $_POST['captcha']){
+		array_push($errors, "Wrong captcha");
+	}
+	
+	if (count($errors) == 0 ) {
 		$query = "SELECT * FROM users WHERE username='$username'";
 		$results = mysqli_query($db, $query); //thực hiện truy vấn db
-
 		if (mysqli_num_rows($results) == 1) {
 			$check = mysqli_fetch_assoc($results); //mysqli_fetch_assoc: trả về kết quả của 1 truy vấn sql
 				if (password_verify($password,$check['password'])) {
@@ -35,7 +37,6 @@ if (isset($_POST['login_user'])) {
 					$_SESSION['role'] = $check['role'];
 					$_SESSION['balance'] = $check['balance'];
 					header('location: index.php');
-						
 				}else {
 		  			array_push($errors, "Wrong password");
 				}
@@ -43,7 +44,8 @@ if (isset($_POST['login_user'])) {
 			array_push($errors, "Wrong username/email");
 		}
 	}
-}
+}	
+
 //cookie set
 if(!empty($_POST["remember"])) {
 	setcookie ("username",$_SESSION["username"],time()+ 3600); //expire time = 1h
@@ -97,17 +99,15 @@ if(!empty($_POST["remember"])) {
   		<label>Password</label>
   		<input type="password" name="password" value="<?php if(isset($_COOKIE["password"])) { echo $_COOKIE["password"]; } ?>">
   	</div>
-	<!-- captcha
+	<!-- captcha -->
 	<div class="input-group captcha-code">
 		<label>Enter Captcha</label>
 		<input type='text' name="captcha"> 
 	</div>
 	<div class="input-group captcha-code">
-		<label>Captcha code:</label>
-		<div class="captcha-ran" ><?php echo $random;?></div>  
+		<img src="captcha.php" alt="Captcha Image">  
 	</div>
-  	
-	captcha -->
+	<!-- end captcha -->
 	<div class="input-group">
   		<button type="submit" class="btn" name="login_user">Login</button>
   	</div>

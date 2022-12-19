@@ -4,7 +4,7 @@
 session_start();
 
 
-$random = rand(1000,9999);
+
 
 // initializing variables
 $username = "";
