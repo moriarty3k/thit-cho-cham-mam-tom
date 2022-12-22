@@ -18,6 +18,15 @@ body {
   border-radius: 10px 10px 0px 0px;
   padding: 20px;
 }
+.submit {
+  display: none;
+  width: 50%;
+  margin: 0px auto;
+  padding: 20px;
+  border: 1px solid #B0C4DE;
+  background: white;
+  border-radius: 10px;
+}
 form, .content {
   width: 30%;
   margin: 0px auto;
@@ -28,6 +37,9 @@ form, .content {
 }
 
 .avt {
+  padding-bottom: 10px;
+  margin: auto;
+  display: flex;
   object-fit: cover;
   vertical-align: middle;
   width: 200px;
@@ -79,6 +91,16 @@ form, .content {
 }
 
 .btn {
+  padding: 10px;
+  font-size: 15px;
+  color: white;
+  background: #5F9EA0;
+  border: none;
+  border-radius: 5px;
+}
+.btn2 {
+  margin: auto;
+  display: flex;
   padding: 10px;
   font-size: 15px;
   color: white;
