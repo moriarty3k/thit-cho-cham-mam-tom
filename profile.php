@@ -30,27 +30,16 @@ if(isset($_POST['submit'])) {
     $allowed = array('jpg', 'jpeg', 'png');
 
     // Check if the file is the correct type and within the allowed size
-    if (in_array($fileActualExt, $allowed) && $fileError === 0 && $fileSize < 10000000) {
-
-        // Generate a new file name to avoid conflicts
+    if (in_array($fileActualExt, $allowed) && $fileError === 0 && $fileSize < 10000000) { //1 trieu bytes = 10MB he thap phan decimal
         $fileNameNew = uniqid('', true) . "." . $fileActualExt;
-
-        // Set the file path where the file will be stored
         $fileDestination = './UserImg/' . $fileNameNew;
-
-        // Move the uploaded file to the desired location
         move_uploaded_file($fileTempName, $fileDestination);
-
-        // Update the user's profile image in the database
         $query2 = "UPDATE users SET image='$fileNameNew' WHERE username= '$username' ";
 		mysqli_query($db, $query2);
-
-        // Redirect the user back to the profile page
         header("location: profile.php");
 
     } else {
-        // Display an error message if the file is the wrong type or too large
-        $_SESSION['error'] = "Error: File must be a jpeg, png, or jpg and must be under 10MB";
+        $_SESSION['error'] = "File must be a jpeg, png, or jpg and must be under 10MB";
         
     }
 
