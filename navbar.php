@@ -10,6 +10,7 @@
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  
 }
 
 .topnav {
@@ -18,6 +19,7 @@ body {
   border: 1px solid #B0C4DE;
   border-top: none;
   border-radius: 0px 0px 8px 8px ;
+  
 }
 
 .topnav a {
