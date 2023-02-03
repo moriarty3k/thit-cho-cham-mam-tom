@@ -27,6 +27,27 @@ if (isset($_POST['message'])){
     header("location: test.php");
 }
 
+if (isset($_POST['clear'])) {
+    $clear = "DELETE FROM messages";
+    mysqli_query($db, $clear); 
+    header("location: test.php");
+}
+// if (isset($_POST['search'])) {
+//     $search = $_POST['search'];
+//     $sql3 = "SELECT * FROM messages WHERE message LIKE '%$search%' OR username LIKE '%$search%' ORDER BY time DESC";
+//     $result = mysqli_query($db, $sql3);
+//     if (mysqli_num_rows($result) > 0) {
+//       while ($row = mysqli_fetch_assoc($result)) {
+//         echo '<div class="message">';
+//         echo '<p>' . $row['username'] . ': ' . $row['message'] . '</p>';
+//         echo '<p class="timestamp">' . $row['timestamp'] . '</p>';
+//         echo '</div>';
+//       }
+//     } else {
+//       echo "No results found.";
+//     }
+//   }
+
 ?>
 
 
@@ -44,7 +65,12 @@ if (isset($_POST['message'])){
         <form action="test.php" method="post">
         <input type="text" name="message" placeholder="Type a message">
         <button type="submit">Send</button>
+        <button type="submit" name="clear">Clear All Messages</button>
+        
+        <!-- <input type="text" name="search" placeholder="Search for message">
+        <button type="submit">Search</button> -->
         </form>
+        <button onclick="location.href='test2.php'" >Search</button>
     </div>
     <div class="chat-messages">
         <?php
