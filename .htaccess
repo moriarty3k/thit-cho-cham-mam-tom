@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 RewriteEngine On
 RewriteRule ^category/(.+)$ http://localhost [R=301,L]
 
 Options -Indexes
+=======
+RewriteEngine On
+RewriteRule ^category/(.+)$ http://localhost [R=301,L]
+
+Options -Indexes
+>>>>>>> origin/cookies
